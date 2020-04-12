@@ -1,4 +1,5 @@
 const express = require('express');
+const { finished } = require('stream');
 const swaggerUI = require('swagger-ui-express');
 const path = require('path');
 const YAML = require('yamljs');
@@ -18,6 +19,20 @@ app.use('/', (req, res, next) => {
     return;
   }
   next();
+});
+
+app.use((req, res) => {
+  const { method, url } = req;
+  const start = Date.now();
+
+  // next();
+
+  finished(res, () => {
+    const ms = Date.now() - start;
+    const { statusCode } = res;
+
+    console.log(`${method} ${url} ${statusCode} [${ms}ms]`);
+  });
 });
 
 app.use('/users', userRouter);
