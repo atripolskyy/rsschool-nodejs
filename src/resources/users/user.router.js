@@ -38,4 +38,14 @@ router.delete('/:id', async (req, res) => {
   res.status(204).send();
 });
 
+// const catchErrors = fn => async (req, res, next) => {
+//   try {
+//     return await fn(req, res, next);
+//   } catch (error) {
+//     // Log all errors
+//     console.error(error);
+//     return next(error);
+//   }
+// };
+
 module.exports = router;
